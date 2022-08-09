@@ -2,6 +2,7 @@ package com.fastcampus.projectboard.repository;
 
 import com.fastcampus.projectboard.config.JpaConfig;
 import com.fastcampus.projectboard.domain.Article;
+import com.fastcampus.projectboard.domain.UserAccount;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class JpaRepositoryTest {
         this.articleCommentRepository = articleCommentRepository;
     }
 
-    @DisplayName("select test")
+    @DisplayName("select 테스트")
     @Test
     void given_when_then() {
 
@@ -36,7 +37,7 @@ class JpaRepositoryTest {
 
         assertThat(articleList)
                 .isNotNull()
-                .hasSize(0);
+                .hasSize(123);
     }
 
     @DisplayName("insert 테스트")
@@ -44,7 +45,7 @@ class JpaRepositoryTest {
     void givenTestData_whenInserting_thenWorksFine() {
         long previousCount = articleRepository.count();
 
-        Article saveArticle = articleRepository.save(Article.of("new article", "new content", "#spring"));
+        Article saveArticle = articleRepository.save(Article.of(UserAccount.of("tesuser","tespw", "test@test.com", "test", "test"),"new article", "new content", "#spring"));
 
         assertThat(articleRepository.count())
                 .isEqualTo(previousCount + 1);
@@ -73,7 +74,7 @@ class JpaRepositoryTest {
         Article article = articleRepository.findById(1L).orElseThrow();
         long previousArticleCount = articleRepository.count();
         long previousArticleCommentCount = articleRepository.count();
-        int deletedCommentsSize = article.getArticleComment().size();
+        int deletedCommentsSize = article.getArticleComments().size();
 
         articleRepository.delete(article);
 
