@@ -1,6 +1,7 @@
 package com.fastcampus.projectboard.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,6 +18,7 @@ import java.util.Set;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
+@NoArgsConstructor
 @Entity
 public class Article extends AuditingFields {
 
@@ -43,10 +45,6 @@ public class Article extends AuditingFields {
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
-
-
-    protected Article() {
-    }
 
     private Article(UserAccount userAccount, String title, String content, String hashtag) {
         this.userAccount = userAccount;

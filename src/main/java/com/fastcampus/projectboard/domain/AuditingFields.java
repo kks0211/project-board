@@ -9,25 +9,33 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @Getter
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class AuditingFields {
+public abstract class AuditingFields {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; // 생성일시
+
     @CreatedBy
-    private String createdBy;
+    @Column(nullable = false, updatable = false, length = 100)
+    private String createdBy; // 생성자
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    @Column(nullable = false)
+    private LocalDateTime modifiedAt; // 수정일시
+
     @LastModifiedBy
-    private String modifiedBy;
+    @Column(nullable = false, length = 100)
+    private String modifiedBy; // 수정자
 
 }

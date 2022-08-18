@@ -1,8 +1,6 @@
 package com.fastcampus.projectboard.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -14,6 +12,7 @@ import java.util.Objects;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class ArticleComment extends AuditingFields {
 
@@ -32,10 +31,6 @@ public class ArticleComment extends AuditingFields {
     @Setter
     @Column(nullable = false, length = 500)
     private String content; // 본문
-
-
-    protected ArticleComment() {
-    }
 
     private ArticleComment(Article article, UserAccount userAccount, String content) {
         this.article = article;
